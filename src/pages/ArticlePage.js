@@ -1,12 +1,16 @@
 import React from "react";
 
-import Articles from "./ArtcleContent";
+import Articles from "./ArticleContent";
+import ArticlesList from "./ArticlesList";
+import NotFoundPage from "./NotFoundPage";
 
 function ArticlePage({ match }) {
   const name = match.params.name;
   const article = Articles.find((article) => article.name === name);
-  
-  if (!article) return <h1>Sorry, the article does not exist!</h1>;
+
+  if (!article) return <NotFoundPage />;
+
+  const otherArticles = Articles.filter((article) => article.name !== name);
 
   return (
     <>
@@ -14,6 +18,8 @@ function ArticlePage({ match }) {
       {article.content.map((para, key) => (
         <p key={key}>{para}</p>
       ))}
+      <h3>Other Articles</h3>
+      <ArticlesList articles={otherArticles} />
     </>
   );
 }
